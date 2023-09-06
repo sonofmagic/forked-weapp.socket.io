@@ -1,9 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
-module.exports = (env = {}) => {
-  const target = env.target || 'Wechat';
-	const isWechat = target !== 'Alipay';
-	const isAlipay = !isWechat;
+module.exports = () => {
+  const target = process.env.target || 'Wechat';
+  const isWechat = target !== 'Alipay';
+  const isAlipay = !isWechat;
 
   return {
     mode: 'development',
@@ -17,7 +17,7 @@ module.exports = (env = {}) => {
     plugins: [
       new webpack.DefinePlugin({
         wx: isWechat ? 'wx' : 'my',
-				my: isAlipay ? 'my' : 'wx',
+        my: isAlipay ? 'my' : 'wx',
       }),
       new webpack.NormalModuleReplacementPlugin(/debug/g, process.cwd() + '/support/debug.js'),
       new webpack.NormalModuleReplacementPlugin(/^ws$/g, process.cwd() + '/src/wx-ws.js'),
